@@ -1,0 +1,13 @@
+pragma solidity ^0.5.8;
+
+contract test1contract {
+    uint public val;
+
+function setValue(uint v) public {
+        val = v;
+    }
+    
+function getValue() public view returns  (uint) {
+        return val;
+    }
+}

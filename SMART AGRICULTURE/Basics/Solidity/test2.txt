@@ -1,0 +1,11 @@
+pragma solidity ^0.5.8;
+
+contract test2contract 
+{
+	uint public i=30;
+	
+	
+	function getVal() public view returns  (uint) {
+        return i;
+    }
+}

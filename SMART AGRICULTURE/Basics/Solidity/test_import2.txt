@@ -1,0 +1,30 @@
+pragma solidity ^0.5.8;
+
+import "./test1.sol";
+import "./test2.sol";
+
+contract test_import2contract {
+    
+    test1contract public s1;
+    test2contract public s2;
+    
+    constructor(test1contract x1, test2contract x2) public {
+        s1 = x1;
+        s2 = x2;
+        //calculateResult = 0;
+    }
+    
+    function storeValue(uint x) public returns (bool) {
+        s1.setValue(x);
+        return true;
+    }
+    
+    function retrieveValue() public view returns (uint) {
+        return s1.getValue();
+    }
+    
+    function printValue() public view returns (uint) {
+        return s2.getVal();
+    }
+    
+}

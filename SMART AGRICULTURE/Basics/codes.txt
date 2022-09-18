@@ -1,0 +1,62 @@
+
+
+FUNCTION THAT HAS TO BE CALLED:--------
+
+ function viewFarmer( uint f) public view returns(uint f_id, uint farmArea,uint schemeAmount,string memory name,string memory farmLocation,string memory cropName)
+    {
+        for(uint id=0;id<=farmer.length;id++){
+            if(f==farmer[id].f_id){
+               //  return(farmers[id]);
+             return(farmer[id].f_id, farmer[id].farmArea, farmer[id].schemeAmount, farmer[id].name, farmer[id].farmLocation, farmer[id].cropName); 
+               
+            }
+         
+            
+        }
+    }
+
+
+CODE THAT CALLS THE FUNCTION FROM THE CONTRACT:
+
+pragma solidity ^0.8.3;
+import "./RegSc.sol";
+
+contract InsSc{
+    
+     
+    
+
+     struct Policy{
+     uint policy_id;
+     string buyerName;
+     uint farmArea;
+     string location;
+     uint premium;
+     uint startTime;
+     uint endTime;                                 // endtime will be calculated 6 months after starttime
+     uint sumAssured;
+     uint claimAmount;
+     uint cropName;
+}     
+     Policy[] policy;
+    
+    
+   
+   RegSC reg;
+    
+     function newPolicy(uint _f_id,  uint _sumAssured) public {
+        
+        reg.viewFarmer(_f_id);
+         
+        if(_sumAssured==50000){ 
+
+               policy.push(Policy({policy_id: policy.length + 1, buyerName: reg.viewFarmer(_f_id).name, farmArea: reg.viewFarmer(_f_id).farmArea, location: reg.viewFarmer(_f_id).farmLocation, premium: 10000, startTime: now, endTime: now + 6*30*24*60*60, sumAssured: _sumAssured, claimAmount: 0, cropName:  reg.viewFarmer(_f_id).cropName}));
+}
+   
+        if(_sumAssured==100000){ 
+
+               policy.push(Policy({policy_id: policy.length + 1, buyerName: reg.viewFarmer(_f_id).name, farmArea: reg.viewFarmer(_f_id).farmArea, location: reg.viewFarmer(_f_id).farmLocation, premium: 20000, startTime: now, endTime: now + 6*30*24*60*60, sumAssured: _sumAssured, claimAmount: 0, cropName:  reg.viewFarmer(_f_id).cropName}));
+}
+
+}
+}

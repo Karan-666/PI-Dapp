@@ -1,0 +1,78 @@
+import { useState } from 'react';
+import { ethers } from 'ethers';
+import './App.css';
+import Greeter from './artifacts/contracts/Greeter.sol/Greeter.json'
+//import RegSC from './artifacts/contracts/RegSc.sol/RegSC.json'
+
+
+const greeterAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+//const regscAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
+
+
+function App() {
+  //const [register, registerfarmer] = useState('')
+  const [greeting, setGreetingValue] = useState('')
+  var data=''
+  async function requestAccount() {                                                          // this function is going to connect to the metamask wallet of the user
+    await window.ethereum.request({ method: 'eth_requestAccounts' });                        // this will get the user's account information from their metamask wallet
+  }                                                                                          // prompts the user to connect to one of their accounts if they have'nt already connected.
+
+ /* async function registerFarmer(){
+    if (!greeting) return                                                                    // first check if they have written a greeting or not coz if they haven't then we don't want to update an empty string in the greeting's section
+    if (typeof window.ethereum !== 'undefined') {                                            // check if window ethereum is there
+      await requestAccount()
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner()                                                    // since we are updating some value here and for that we need to create a transaction and for that we need to sign the transaction using a signer and using provider we create a signer here
+      const contract = new ethers.Contract(regscAddress, RegSC.abi, signer)                  // new instance of contract created and we pass the signer as the 3rd parameter instead of the provider
+      const transaction = await contract.newFarmer(register)                                 // passing the greeting variable here that is local
+      document.getElementById('display').innerHTML = "bgbg"
+      await transaction.wait()                                                               // it waits for the transaction to be confirmed
+      
+  }
+}*/
+  
+  async function fetchGreeting(){                                                            // functions are kept asynchronous because they need to await some return value
+    if (typeof window.ethereum !== 'undefined') {                                            // meaning that if metamask is installed into the user's browser then window.ethereum will be injected into the window object
+      const provider = new ethers.providers.Web3Provider(window.ethereum)                    // using Web3Provider 
+      const contract = new ethers.Contract(greeterAddress, Greeter.abi, provider)            // creating new instance of the contract
+      try {
+        data = await contract.greet()                                                        // here, we get the greeting value
+        document.getElementById('display').innerHTML = data
+        //console.log('data: ', data)
+      } catch (err) {
+        console.log("Error: ", err)
+      }
+    }    
+  }
+
+  async function setGreeting(){
+    if (!greeting) return                                                                    // first check if they have written a greeting or not coz if they haven't then we don't want to update an empty string in the greeting's section
+    if (typeof window.ethereum !== 'undefined') {                                            // check if window ethereum is there
+      await requestAccount()
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner()                                                    // since we are updating some value here and for that we need to create a transaction and for that we need to sign the transaction using a signer and using provider we create a signer here
+      const contract = new ethers.Contract(greeterAddress, Greeter.abi, signer)              // new instance of contract created and we pass the signer as the 3rd parameter instead of the provider
+      const transaction = await contract.setGreeting(greeting)                               // passing the greeting variable here that is local
+      setGreetingValue('')
+      await transaction.wait()                                                               // it waits for the transaction to be confirmed
+      fetchGreeting()
+    }
+  }
+
+  return (
+    <div className="App">
+     <header className="App-header">
+        <button onClick={fetchGreeting}>Fetch Greeting</button>
+        <button onClick={setGreeting}>Set Greeting</button>
+        
+        <input onChange={e => setGreetingValue(e.target.value)} placeholder="Set greeting" value={greeting} />     
+        <output id="display"></output>
+        
+      </header>     
+    </div>
+  );
+
+
+ 
+}
+export default App;

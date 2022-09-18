@@ -1,0 +1,25 @@
+.App {
+  text-align: center;
+  }
+
+.App-logo {
+  height: 40vmin;
+}
+
+.App-header {
+  background-image: url("https://image.freepik.com/free-photo/closeup-shot-cornfield-with-green-leaves-blurred-background_181624-8410.jpg");
+  min-width: 1000px;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: rgb(243, 247, 241);
+}
+
+
+
+.App-link {
+  color: #09d3ac;
+}

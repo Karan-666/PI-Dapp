@@ -1,0 +1,32 @@
+pragma solidity ^0.5.8;
+import "./test1.sol";
+import "./test2.sol";
+
+contract test_import3contract{
+    
+    address a1;
+    address a2;
+    
+    function setaddresses(address addr1, address addr2) external
+    {
+               a1 = addr1;
+               a2 = addr2;
+    }
+
+    
+    function storeValue(uint x) public returns (bool) {
+        test1contract s1 = test1contract(a1);
+        s1.setValue(x);
+        return true;
+    }
+    
+    function retrieveValue() public view returns (uint) {
+        test1contract s1 = test1contract(a1);
+        return s1.getValue();
+    }
+    
+    function printValue() public view returns (uint) {
+        test2contract s2 = test2contract(a2);
+        return s2.getVal();
+    }
+}
